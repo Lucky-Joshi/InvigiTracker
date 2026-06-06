@@ -1,0 +1,157 @@
+// Prisma schema for InvigiTracker
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  clerkId   String   @unique
+  email     String   @unique
+  name      String?
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([clerkId])
+}
+
+model Centre {
+  id           String       @id @default(cuid())
+  name         String       @unique
+  address      String
+  phone        String?
+  email        String?
+  capacity     Int          @default(100)
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  invigilators Invigilator[]
+  exams        Exam[]
+  duties       Duty[]
+
+  @@index([name])
+}
+
+model Invigilator {
+  id              String        @id @default(cuid())
+  firstName       String
+  lastName        String
+  email           String        @unique
+  phone           String        @unique
+  address         String
+  gender          String
+  paymentPerDuty  Float
+  preferredCentre String?
+  experience      Int?
+  availabilityStatus Boolean      @default(true)
+  notes           String?
+  emergencyContact String?
+  profilePhoto    String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  centre          Centre?       @relation(fields: [centreId], references: [id])
+  centreId        String?
+  duties          Duty[]
+  attendances     Attendance[]
+  payments        Payment[]
+
+  @@index([email, phone, preferredCentre])
+}
+
+model Exam {
+  id            String   @id @default(cuid())
+  title         String
+  date          DateTime
+  shiftStart    String
+  shiftEnd      String
+  invigilatorsRequired Int
+  status        String   @default("scheduled")
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  centre        Centre   @relation(fields: [centreId], references: [id])
+  centreId      String
+  duties        Duty[]
+
+  @@index([date, centreId, status])
+}
+
+model Duty {
+  id            String       @id @default(cuid())
+  status        String       @default("assigned")
+  notes         String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  exam          Exam         @relation(fields: [examId], references: [id])
+  examId        String
+  invigilator   Invigilator  @relation(fields: [invigilatorsId], references: [id])
+  invigilatorsId String
+  centre        Centre       @relation(fields: [centreId], references: [id])
+  centreId      String
+  attendance    Attendance?
+  payment       Payment?
+
+  @@unique([examId, invigilatorsId])
+  @@index([examId, invigilatorsId, status])
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  status    String   @default("pending")
+  timestamp DateTime @default(now())
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  duty      Duty     @relation(fields: [dutyId], references: [id])
+  dutyId    String   @unique
+  invigilator Invigilator @relation(fields: [invigilatorsId], references: [id])
+  invigilatorsId String
+
+  @@index([status, timestamp])
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  amount        Float
+  status        String   @default("pending")
+  paidAmount    Float    @default(0)
+  pendingAmount Float
+  dueDate       DateTime?
+  paidDate      DateTime?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  duty          Duty     @relation(fields: [dutyId], references: [id])
+  dutyId        String   @unique
+  invigilator   Invigilator @relation(fields: [invigilatorsId], references: [id])
+  invigilatorsId String
+
+  @@index([status, invigilatorsId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  title     String
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([read, createdAt])
+}
+
+model ActivityLog {
+  id        String   @id @default(cuid())
+  action    String
+  entity    String
+  entityId  String
+  changes   String?
+  createdAt DateTime @default(now())
+
+  @@index([action, entity, entityId, createdAt])
+}
