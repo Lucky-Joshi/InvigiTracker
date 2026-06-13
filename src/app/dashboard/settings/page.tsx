@@ -63,21 +63,39 @@ export default function SettingsPage() {
             <div className="flex items-center justify-between">
               <div><p className="font-medium">Email Notifications</p><p className="text-sm text-slate-500">Receive email alerts</p></div>
               <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  defaultChecked
+                  aria-label="Email Notifications"
+                  title="Email Notifications"
+                />
                 <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600" />
               </label>
             </div>
             <div className="flex items-center justify-between">
               <div><p className="font-medium">Exam Reminders</p><p className="text-sm text-slate-500">Get reminded about upcoming exams</p></div>
               <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  defaultChecked
+                  aria-label="Exam Reminders"
+                  title="Exam Reminders"
+                />
                 <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600" />
               </label>
             </div>
             <div className="flex items-center justify-between">
               <div><p className="font-medium">Payment Alerts</p><p className="text-sm text-slate-500">Payment due reminders</p></div>
               <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" className="sr-only peer" defaultChecked />
+                <input
+                  type="checkbox"
+                  className="sr-only peer"
+                  defaultChecked
+                  aria-label="Payment Alerts"
+                  title="Payment Alerts"
+                />
                 <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-slate-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-slate-600 peer-checked:bg-blue-600" />
               </label>
             </div>
